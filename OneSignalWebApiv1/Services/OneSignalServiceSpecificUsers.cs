@@ -8,7 +8,7 @@ namespace OneSignalWebApiv1.Services
     public class OneSignalServiceSpecificUsers
     {
         private readonly DefaultApi _client;
-        private string _appId;
+        private readonly string _appId;
         public OneSignalServiceSpecificUsers(string appId, string oneSignalApiKey)
         {
             _appId = appId;

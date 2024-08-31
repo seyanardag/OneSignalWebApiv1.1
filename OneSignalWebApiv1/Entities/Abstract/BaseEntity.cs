@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OneSignalWebApiv1.Entities.Abstract
 {
-    public class BaseEntity
+    public abstract class BaseEntity
     {
         [Key]
         public Guid GUID { get; set; } = Guid.NewGuid();
