@@ -33,6 +33,7 @@ namespace OneSignalWebApiv1.Services
                 // Hedef kitle           
                 IncludedSegments = segments,
 
+
             };
 
             try
