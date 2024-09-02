@@ -36,8 +36,9 @@ namespace OneSignalWebApiv1.Controllers
             {
                 identity = new Identity
                 {
-                    external_id = "user123", // Kullanıcı kimliği
-                    onesignal_id = "0e7a7d3e-aa48-4faa-acdd-f09348fee33c"
+                  //  external_id = "user123", // Kullanıcı kimliği
+                    onesignal_id = "f2edf93a-0295-4931-ba18-c953d86040f1"
+
                 },
                 properties = new Properties
                 {
@@ -45,6 +46,7 @@ namespace OneSignalWebApiv1.Controllers
                 }
             };
 
+            System.Diagnostics.Debug.WriteLine(newUser.identity.onesignal_id.ToString());
             var jsonUser = JsonConvert.SerializeObject(newUser);
 
             var request = new HttpRequestMessage

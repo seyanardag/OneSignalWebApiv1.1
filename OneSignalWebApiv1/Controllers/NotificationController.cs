@@ -39,9 +39,9 @@ namespace OneSignalWebApiv1.Controllers
 
         //Belirli bir kullanıcıya veya kullanıcılara bildirim gönderilmesi
         [HttpPost("BelirliKullaniciyaBildirim")]
-        public async Task<IActionResult> SendNotificationToSpecificUser(string heading, string content)
+        public async Task<IActionResult> SendNotificationToSpecificUser(string heading, string content, List<string> playerIds)
         {
-            await _oneSignalServiceSpecificUsers.SendNotificationSpecificUser(heading, content);
+            await _oneSignalServiceSpecificUsers.SendNotificationSpecificUser(heading, content, playerIds);
             return Ok("Belirlenen kişiye mesaj gönderildi");
 
         }

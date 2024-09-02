@@ -1,4 +1,5 @@
-﻿using OneSignalApi.Api;
+﻿using Microsoft.OpenApi.Validations;
+using OneSignalApi.Api;
 using OneSignalApi.Client;
 using OneSignalApi.Model;
 using OneSignalWebApiv1.Context;
@@ -47,9 +48,9 @@ namespace OneSignalWebApiv1.Services
 
         }
         //Manuel olarak belirlenen kullanıcılara bildirim gönderilmesi
-        public Task SendNotificationSpecificUser(string heading, string message)
+        public Task SendNotificationSpecificUser(string heading, string message, List<string> playerIds)
         {
-            var playerIds = new List<string> { "089ca095-f63c-4650-8148-6bcb72ffb3d4" };
+            //var playerIds = new List<string> { "089ca095-f63c-4650-8148-6bcb72ffb3d4" };
             return CreateAndSendNotificationAsync(heading, message, playerIds);
 
         }
@@ -59,31 +60,36 @@ namespace OneSignalWebApiv1.Services
         public Task SendNotificationToCustomScheduled(string heading, string message)
         {
             var startTimeSpan = TimeSpan.Zero;
-            heading = "DERS YAKLAŞTI";
+            //heading = "DERS YAKLAŞTI";
             message = "Planlı dersiniz için son 15 dakika. Lütfen hazırlık yapınız";
 
-            //Test amaçlı 10 saniye seçildi, normalde alt satırdaki 15 dakika aktif olacak
+            //Test amaçlı 20 saniye seçildi, normalde alt satırdaki 15 dakika aktif olacak
             var periodTimeSpan = TimeSpan.FromSeconds(10);
             //var periodTimeSpan = TimeSpan.FromMinutes(15);
 
-            var timer = new System.Threading.Timer((e) =>
+            var timer = new System.Threading.Timer(async (e) =>
             {
                 var context = new OneSignalDbContext();
-
-                List<string> playerIds = new List<string>() { "089ca095-f63c-4650-8148-6bcb72ffb3d4" };
-
-                //Öğrencinin kendi hazırladığı dersin başlamasına son 10 dk dan az kaldığının hesaplanması
-                var last10minToSchedule = context.CustomSchedules.Where(x => x.ScheduleDate < DateTime.UtcNow.AddMinutes(10)).ToList();
+                //Öğrencinin kendi hazırladığı dersin başlamasına son 10 dk dan az kaldığının hesaplanması ve bu öğrencilerin listesinin oluştyurulması
+                var last10minToSchedule = context.CustomSchedules.Where(x => x.ScheduleDate > DateTime.UtcNow.AddHours(3) && x.ScheduleDate < DateTime.UtcNow.AddHours(3).AddMinutes(10)).ToList();
 
                 //Timer ın çalıştığını kontrol etmek için;
                 System.Diagnostics.Debug.WriteLine("calisti");
+                foreach (var item in last10minToSchedule)
+                {
+                    var dersBilgisi = $"DB deki GUID:{item.GUID} - {item.LessonName}"; 
+                    System.Diagnostics.Debug.WriteLine(dersBilgisi);
+                    heading = item.LessonName;
+                }
                 System.Diagnostics.Debug.WriteLine(DateTime.Now.ToString());
 
 
                 if (last10minToSchedule.Any())
                 {
+                    //TODO Database den dersi yaklaşan kullanıcıların tespit edilip playerId lerinin alınması gerekmekte
+                    List<string> playerIds = new List<string>() { "089ca095-f63c-4650-8148-6bcb72ffb3d4" };  
                     playerIds.AddRange(last10minToSchedule.Select(x => x.GUID.ToString()));
-                    CreateAndSendNotificationAsync(heading, message, playerIds);
+                    await CreateAndSendNotificationAsync(heading, message, playerIds);
                 }
 
             }, null, startTimeSpan, periodTimeSpan);

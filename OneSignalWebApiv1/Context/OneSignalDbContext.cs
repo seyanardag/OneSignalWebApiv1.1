@@ -9,7 +9,7 @@ namespace OneSignalWebApiv1.Context
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer("Server=(localdb)\\MSSQLLocalDB; Database=Fusion; Trusted_Connection = true; Encrypt=False;");
+            optionsBuilder.UseSqlServer("Server=.; Database=Fusion; Trusted_Connection = true; Encrypt=False;");
         }
 
         public DbSet <LiveLesson> LiveLessons { get; set; }

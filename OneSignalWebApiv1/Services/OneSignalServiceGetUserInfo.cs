@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OneSignalWebApiv1.Entities.OneSignalEntities;
+using System.Text.Json.Nodes;
 
 namespace OneSignalWebApiv1.Services
 {
@@ -58,6 +59,52 @@ namespace OneSignalWebApiv1.Services
             }
             return null;
         }
+
+
+
+        //PlayerId veya Subscription ID kullanarak OneSignalId nin döndürülmesi
+        public async Task<string> GetOneSignalIdByPlayerId(string playerId)
+        {                    
+
+            var client = new HttpClient();
+            var request = new HttpRequestMessage
+            {
+                Method = HttpMethod.Get,
+
+                RequestUri = new Uri($"https://api.onesignal.com/apps/{_appId}/subscriptions/{playerId}/user/identity"),
+
+                Headers =
+                    {
+                        { "accept", "application/json" },
+                    },
+            };
+
+            try
+            {
+                using (var response = await client.SendAsync(request))
+                {
+                    response.EnsureSuccessStatusCode();
+                    var body = await response.Content.ReadAsStringAsync();
+                    if (body.Length < 0 || body != null)
+                    {
+                        var json = JsonObject.Parse(body);
+                        var oneSignalId = json["identity"]["onesignal_id"].ToString();
+                        return oneSignalId;
+                    }
+                    else return null;
+                }
+            }
+            catch (Exception ex)
+            {
+                return ex.Message;
+            }
+           
+        }
+
+
+
+
+
 
     }
 }

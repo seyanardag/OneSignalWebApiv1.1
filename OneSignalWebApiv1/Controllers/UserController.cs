@@ -21,18 +21,32 @@ namespace OneSignalWebApiv1.Controllers
         }
 
         //OneSignalID kullanarak kayıtlı user bilgilerini getirme
-        [HttpGet("GetUser")]
+        [HttpGet("OneSignalIDileUserInfoGetir")]
         public async Task<IActionResult> GetUser(string oneSignalID)
-        {
+        {            
             var oneSignalUserInfo = await _getUserInfoService.GetUser(oneSignalID);
             if (oneSignalUserInfo == null)
             {
-                return BadRequest();
+                return BadRequest("Hata;kullanıcı bulunamadı");
             } else
             {
                 return Ok(oneSignalUserInfo);                      
             }
 
         }
+
+
+
+        //https://documentation.onesignal.com/reference/fetch-identity-by-subscription
+        [HttpGet("PlayerIddenOneSignalIdGetir")]
+        public async Task<IActionResult> ViewUserIdentity(string playerId)
+        {          
+            var oneSignalId = await _getUserInfoService.GetOneSignalIdByPlayerId(playerId);
+            
+            return Ok(oneSignalId);
+
+        }
+
+
     }
 }
