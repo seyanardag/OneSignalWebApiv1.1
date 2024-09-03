@@ -18,46 +18,46 @@ namespace OneSignalWebApiv1.Controllers
         public async Task<IActionResult> AddUser3()
         {
             var client = new HttpClient();
-
-            var newUser = new OneSignalUser
-            {
-                properties = new properties
-                {
-                    language = "en",
-                    //lat = 90,
-                    //long = 135,
-                    country = "US",
-                    first_active = 1678215680,
-                    last_active = 1678215682
-                },
-                identity = new identity
-                {
-                    //external_id = "test_external_id",
-                    onesignal_id = "0e7a7d3e-aa48-4faa-acdd-f09348fee33c"
-                },
-                subscriptions = new List<subscriptions>
-        {
-            new subscriptions
-            {
-                type = "iOSPush",
-                token = "pushToken,email,OR,phoneNumber",
-                enabled = true,
-                notification_types = 0,
-                session_time = 60,
-                session_count = 1,
-                app_version = "1.0.0",
-                device_model = "iPhone 14",
-                device_os = "16.0.0",
-                test_type = 0,
-                sdk = "5.0.0",
-                rooted = false,
-                web_auth = "string",
-                web_p256 = "string"
-            }
-        }
-            };
-            var jsonUser = JsonConvert.SerializeObject(newUser);
-
+            #region newUserViaCustomModel
+            //    var newUser = new OneSignalUser
+            //    {
+            //        properties = new properties
+            //        {
+            //            language = "en",
+            //            //lat = 90,
+            //            //long = 135,
+            //            country = "US",
+            //            first_active = 1678215680,
+            //            last_active = 1678215682
+            //        },
+            //        identity = new identity
+            //        {
+            //            //external_id = "test_external_id",
+            //            onesignal_id = "0e7a7d3e-aa48-4faa-acdd-f09348fee33c"
+            //        },
+            //        subscriptions = new List<subscriptions>
+            //{
+            //    new subscriptions
+            //    {
+            //        type = "iOSPush",
+            //        token = "pushToken,email,OR,phoneNumber",
+            //        enabled = true,
+            //        notification_types = 0,
+            //        session_time = 60,
+            //        session_count = 1,
+            //        app_version = "1.0.0",
+            //        device_model = "iPhone 14",
+            //        device_os = "16.0.0",
+            //        test_type = 0,
+            //        sdk = "5.0.0",
+            //        rooted = false,
+            //        web_auth = "string",
+            //        web_p256 = "string"
+            //    }
+            //}
+            //    };
+            //    var jsonUser = JsonConvert.SerializeObject(newUser);
+            #endregion
 
             var request = new HttpRequestMessage
             {
