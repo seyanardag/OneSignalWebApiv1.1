@@ -14,11 +14,14 @@ namespace OneSignalWebApiv1.Controllers
     public class UserController : ControllerBase
     {
         private readonly OneSignalServiceGetUserInfo _getUserInfoService;
+        private readonly OneSignalServiceCreateOrUpdatePlayer _getUserInfoServiceCreateOrUpdatePlayer;
 
-        public UserController(OneSignalServiceGetUserInfo getuserInfo)
+        public UserController(OneSignalServiceGetUserInfo getUserInfoService, OneSignalServiceCreateOrUpdatePlayer getUserInfoServiceCreateOrUpdatePlayer)
         {
-            _getUserInfoService = getuserInfo;
+            _getUserInfoService = getUserInfoService;
+            _getUserInfoServiceCreateOrUpdatePlayer = getUserInfoServiceCreateOrUpdatePlayer;
         }
+
 
         //OneSignalID kullanarak kayıtlı user bilgilerini getirme
         [HttpGet("OneSignalIDileUserInfoGetir")]
@@ -45,6 +48,14 @@ namespace OneSignalWebApiv1.Controllers
             
             return Ok(oneSignalId);
 
+        }
+
+        [HttpPost("playerOlusturVeyaGuncelle")]
+        public async Task<string> OneSignalServiceCreateOrUpdatePlayer (string email, string phoneNumber)
+        {
+            var result = await _getUserInfoServiceCreateOrUpdatePlayer.CreateOrUpdatePlayerAsync(email, phoneNumber);
+
+            return result;
         }
 
 

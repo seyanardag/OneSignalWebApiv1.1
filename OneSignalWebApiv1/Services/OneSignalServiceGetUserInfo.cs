@@ -17,6 +17,7 @@ namespace OneSignalWebApiv1.Services
 
         public async Task<OneSignalUser> GetUser(string oneSignalID)
         {
+            oneSignalID = oneSignalID.Trim();
             var client = new HttpClient();
             var request = new HttpRequestMessage
             {
@@ -65,6 +66,7 @@ namespace OneSignalWebApiv1.Services
         //PlayerId veya Subscription ID kullanarak OneSignalId nin döndürülmesi
         public async Task<string> GetOneSignalIdByPlayerId(string playerId)
         {                    
+            playerId = playerId.Trim();
 
             var client = new HttpClient();
             var request = new HttpRequestMessage

@@ -20,6 +20,8 @@ var oneSignalApiKey = builder.Configuration.GetSection("OneSignalKeys")["RestApi
 builder.Services.AddSingleton(new OneSignalService(oneSignalAppId!, oneSignalApiKey!));
 builder.Services.AddSingleton(new OneSignalServiceSpecificUsers(oneSignalAppId!, oneSignalApiKey!));
 builder.Services.AddSingleton(new OneSignalServiceGetUserInfo(oneSignalAppId!));
+builder.Services.AddSingleton(new OneSignalServiceSendByEmail(oneSignalAppId!, oneSignalApiKey!));
+builder.Services.AddSingleton(new OneSignalServiceCreateOrUpdatePlayer(oneSignalAppId!, oneSignalApiKey!));
 
 var app = builder.Build();
 

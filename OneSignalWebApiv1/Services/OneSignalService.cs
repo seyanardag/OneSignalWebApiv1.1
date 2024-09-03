@@ -23,6 +23,8 @@ namespace OneSignalWebApiv1.Services
 
         public async Task CreateAndSendNotificationAsync(string heading, string message, List<string> segments) 
         {
+            heading = heading.Trim();
+            message = message.Trim();
             // Bildirim oluşturma
             var notification = new Notification(appId: _appId)
             {

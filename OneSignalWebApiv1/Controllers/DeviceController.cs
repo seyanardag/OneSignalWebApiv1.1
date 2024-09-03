@@ -33,11 +33,7 @@ namespace OneSignalWebApiv1.Controllers
                 return Ok(body);
             }
 
-
-
-
-
-            return Ok();
+            
         }
 
     }

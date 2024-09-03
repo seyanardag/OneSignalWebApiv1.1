@@ -24,6 +24,9 @@ namespace OneSignalWebApiv1.Services
 
         public async Task CreateAndSendNotificationAsync(string heading, string message, List<string> playerIds)
         {
+            heading = heading.Trim();
+            message = message.Trim();
+
             // Bildirim oluşturma
             var notification = new Notification(appId: _appId)
             {
@@ -59,6 +62,9 @@ namespace OneSignalWebApiv1.Services
         //Dersi yaklaşan kullanıcıya bildirim gönderilmesi
         public Task SendNotificationToCustomScheduled(string heading, string message)
         {
+            heading = heading.Trim();
+            message = message.Trim();
+
             var startTimeSpan = TimeSpan.Zero;
             //heading = "DERS YAKLAŞTI";
             message = "Planlı dersiniz için son 15 dakika. Lütfen hazırlık yapınız";
