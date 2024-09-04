@@ -1,4 +1,5 @@
 using OneSignalWebApiv1.Context;
+using OneSignalWebApiv1.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,6 +7,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<OneSignalDbContext>();
 builder.Services.AddHttpClient();
+
+var oneSignalAppId = builder.Configuration.GetSection("OneSignalKeys")["AppId"];
+var oneSignalApiKey = builder.Configuration.GetSection("OneSignalKeys")["RestApiKey"];
+builder.Services.AddSingleton(new OneSignalServiceSpecificUsers(oneSignalAppId!, oneSignalApiKey!));
+
+
 
 var app = builder.Build();
 

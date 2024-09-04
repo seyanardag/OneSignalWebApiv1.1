@@ -7,17 +7,21 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using OneSignalWebApiv1.Context;
 using OneSignalWebApiv1.Entities;
+using OneSignalWebApiv1.Services;
 
 namespace OneSignalUI.Controllers
 {
     public class StudentHomeworkMVsController : Controller
     {
         private readonly OneSignalDbContext _context;
+        private readonly OneSignalServiceSpecificUsers _oneSignalServiceSpecificUsers;
 
-        public StudentHomeworkMVsController(OneSignalDbContext context)
+        public StudentHomeworkMVsController(OneSignalDbContext context, OneSignalServiceSpecificUsers oneSignalServiceSpecificUsers)
         {
             _context = context;
+            _oneSignalServiceSpecificUsers = oneSignalServiceSpecificUsers;
         }
+
 
         // GET: StudentHomeworkMVs
         public async Task<IActionResult> Index()
@@ -68,7 +72,14 @@ namespace OneSignalUI.Controllers
                 _context.Add(newitem);
                 await _context.SaveChangesAsync();
 
-                // TODO: newitem.StudentId nolu öğrenciye "Yeni ödeviniz var" bildiriminin gönderilmesi
+                // TODO: newitem.StudentId nolu öğrenciye "Yeni ödeviniz var" bildiriminin gönderilmesi YAPILDI
+                Student? studentToSendNotif = _context.Students.FirstOrDefault(s => s.GUID == studentHomeworkMV.StudentId);
+                if(studentToSendNotif.SubscriptionId != null)
+                {
+                    var notifList = new List<string>() { studentToSendNotif.SubscriptionId };
+                    await _oneSignalServiceSpecificUsers.CreateAndSendNotificationAsync("Yeni Ödev", "Size yeni bir ödev ataması yapıldı, lütfen en yakın zamanda ödevinizi kontrol ediniz.", notifList);
+                }
+
 
                 return RedirectToAction(nameof(Index));
             }

@@ -31,30 +31,26 @@
                     var email = tags["email"];
                     console.log(tags["email"]);
 
-
-
-
-
-
+          
                                  $(document).ready(function() {
 
                                      //homework index teki buton ile veri alma
                                      $("#OneSginalAddEmailBtn").click(function() {
 
 
-                                          var PlayerId =  OneSignal.User.PushSubscription.id;
-                                          console.log("PushSubscription.id=",PlayerId);
-                                          var PushToken = OneSignal.User.PushSubscription.token;
-                                          console.log("pushToken",PushToken);
-
+                                        var PlayerId = OneSignal.User.PushSubscription.id;
+                                        console.log("PushSubscription.id=", PlayerId);
+                                        var PushToken = OneSignal.User.PushSubscription.token;
+                                        console.log("pushToken", PushToken);
 
                                      
                                          var OneSignalAddEmailInputVal = $("#OneSignalAddEmailInputVal").val();
                                          var StudentGUID = $("#StudentGUID").val();
                                          console.log(OneSignalAddEmailInputVal);
+                                         OneSignal.User.addTag('email', OneSignalAddEmailInputVal);
 
                                          $.ajax({
-                                                url: '/api/DatabaseSave/SaveSDKDatas', // API endpoint
+                                                url: 'https://localhost:44334/api/DatabaseSave/SaveSDKDatas', // API endpoint
                                                 type: 'POST',
                                                 contentType: 'application/json',
                                                 data: JSON.stringify(

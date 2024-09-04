@@ -39,6 +39,11 @@ namespace OneSignalWebApiv1.Context
                 .OnDelete(DeleteBehavior.Restrict);
 
 
+            modelBuilder.Entity<CustomSchedule>()
+                .HasOne(x=>x.Student)
+                .WithMany(s=>s.CustomSchedules)
+                .HasForeignKey(fk=>fk.StudentId);
+
 
             //DbSeed İşlemleri;
             modelBuilder.Entity<Student>().HasData(

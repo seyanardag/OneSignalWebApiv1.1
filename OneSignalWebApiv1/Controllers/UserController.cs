@@ -43,7 +43,8 @@ namespace OneSignalWebApiv1.Controllers
         //https://documentation.onesignal.com/reference/fetch-identity-by-subscription
         [HttpGet("PlayerIddenOneSignalIdGetir")]
         public async Task<IActionResult> ViewUserIdentity(string playerId)
-        {          
+        {
+            if (playerId == null) return NotFound();
             var oneSignalId = await _getUserInfoService.GetOneSignalIdByPlayerId(playerId);
             
             return Ok(oneSignalId);
@@ -57,6 +58,10 @@ namespace OneSignalWebApiv1.Controllers
 
             return result;
         }
+
+
+
+
 
 
     }

@@ -13,10 +13,10 @@ namespace OneSignalWebApiv1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UpdatePlayerController : ControllerBase
+    public class GetPlayerController : ControllerBase
     {
-        [HttpGet("UpdatePlayer")]
-        public async Task<IActionResult> UpdatePlayer(string playerId)
+        [HttpGet("PlayerIdIlePlayerBilgisiGetir")]
+        public async Task<IActionResult> GetPlayerInfo(string playerId)
         {
             Configuration config = new Configuration();
             config.BasePath = "https://onesignal.com/api/v1";
@@ -31,10 +31,10 @@ namespace OneSignalWebApiv1.Controllers
             try
             {
                 var res = await apiInstance.GetPlayerAsync("1af6fc63-a7de-4ccc-8f67-7a6a2a14bd65", playerId);
-                UpdatePlayerSuccessResponse result = await apiInstance.UpdatePlayerAsync(playerId, player);
-                // Edit device
+                //UpdatePlayerSuccessResponse result = await apiInstance.UpdatePlayerAsync(playerId, player);
+                return Ok(res);
 
-                Debug.WriteLine(result);
+                //Debug.WriteLine(result);
             }
             catch (ApiException e)
             {

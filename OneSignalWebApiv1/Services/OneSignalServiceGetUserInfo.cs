@@ -64,8 +64,9 @@ namespace OneSignalWebApiv1.Services
 
 
         //PlayerId veya Subscription ID kullanarak OneSignalId nin döndürülmesi
-        public async Task<string> GetOneSignalIdByPlayerId(string playerId)
-        {                    
+        public async Task<string> GetOneSignalIdByPlayerId(string? playerId)
+        {
+            if (playerId == null) return null;
             playerId = playerId.Trim();
 
             var client = new HttpClient();

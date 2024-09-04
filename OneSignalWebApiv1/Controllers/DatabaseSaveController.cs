@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OneSignalWebApiv1.Context;
+using OneSignalWebApiv1.Entities;
+using OneSignalWebApiv1.Entities.OneSignalEntities;
 using OneSignalWebApiv1.Services;
 
 namespace OneSignalWebApiv1.Controllers
@@ -20,15 +22,22 @@ namespace OneSignalWebApiv1.Controllers
         }
 
         [HttpPost("SaveSDKDatas")]
-        public async Task<IActionResult> SaveSDKDatas([FromBody] SaveSDKData request)
+        public async Task<IActionResult> SaveSDKDatas([FromBody] SaveSDKDataEntity request)
         {
-            var student = _dbContext.Students.FirstOrDefault(x => x.GUID.ToString() == request.StudentGUID);
+            Student student = _dbContext.Students.FirstOrDefault(x => x.GUID.ToString() == request.StudentGUID);
             if (student == null) return BadRequest("Öğrenci bulunamadı"); //ÖĞRENCİ EKLENEREK DEVAM EDİLEBİLİR
 
+            try
+            {
+                var studentOneSignalId = await _oneSignalServiceGetUserInfo.GetOneSignalIdByPlayerId(request.PlayerId);
+                student.OneSignalId = studentOneSignalId;
+            }
+            catch (Exception)
+            {
 
-            var studentOneSignalId = await _oneSignalServiceGetUserInfo.GetOneSignalIdByPlayerId(request.PlayerId);
-            student.OneSignalId = studentOneSignalId;
-
+                throw;
+            }
+            student.Email = request.OneSignalAddEmailInputVal;
             student.SubscriptionId = request.PlayerId;
             student.PushToken = request.PushToken;
 
@@ -39,54 +48,7 @@ namespace OneSignalWebApiv1.Controllers
 
 
 
-        //[HttpPost("SaveOneSignalId")]
-        //public IActionResult SaveOneSignalId([FromBody] PlayerIdRequest request)
-        //{
-
-        //    var playerId = request.PlayerId;
-        //    var pushToken = request.pushToken;
-
-        //    // Kullanıcının OneSignal ID'sini veritabanına kaydedin
-        //    //var user = _dbContext.Users.Find(User.Identity.Name);
-        //    //user.OneSignalPlayerId = request.playerId;
-        //    //_dbContext.SaveChanges();
-        //    return Ok();
-        //}
-
-
-        //[HttpPost("SaveOneSignalEmail")]
-        //public IActionResult SaveOneSignalEmail([FromBody] OneSignalEmailRequest request)
-        //{
-
-        //    var email = request.OneSginalAddEmailTagInput;
-
-        //    return Ok();
-        //}
-
-
-
     }
 }
 
 
-//public class PlayerIdRequest
-//{
-//    public string PlayerId { get; set; }
-//    public string pushToken { get; set; }
-//}
-
-//public class OneSignalEmailRequest
-//{
-//    public string OneSginalAddEmailTagInput { get; set; }
-  
-//}
-
-public class SaveSDKData
-{
-    public string? PlayerId { get; set; }
-    public string? PushToken { get; set; }
-    public string? OneSignalAddEmailInputVal { get; set; }
-    public string? StudentGUID { get; set; }
-
-
-}

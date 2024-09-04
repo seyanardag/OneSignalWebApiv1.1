@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OneSignalWebApiv1.Context;
 
@@ -11,9 +12,11 @@ using OneSignalWebApiv1.Context;
 namespace OneSignalWebApiv1.Migrations
 {
     [DbContext(typeof(OneSignalDbContext))]
-    partial class OneSignalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240904124442_CustomScheduleStudentRelation")]
+    partial class CustomScheduleStudentRelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,15 +81,15 @@ namespace OneSignalWebApiv1.Migrations
                         new
                         {
                             GUID = new Guid("e0f4c6a5-5a6b-4d6e-8c5d-ef33b40f6d4b"),
-                            CREATEDDATE = new DateTime(2024, 9, 4, 16, 35, 39, 104, DateTimeKind.Local).AddTicks(9106),
-                            CREATEDTIME = new TimeSpan(597391049109),
+                            CREATEDDATE = new DateTime(2024, 9, 4, 15, 49, 41, 569, DateTimeKind.Local).AddTicks(2237),
+                            CREATEDTIME = new TimeSpan(569815692241),
                             HomeworkTitle = "Matematik 5 soru çöz"
                         },
                         new
                         {
                             GUID = new Guid("d8a89b58-0db8-4f62-a6b5-dc5a2e3de0a3"),
-                            CREATEDDATE = new DateTime(2024, 9, 4, 16, 40, 39, 104, DateTimeKind.Local).AddTicks(9114),
-                            CREATEDTIME = new TimeSpan(597391049115),
+                            CREATEDDATE = new DateTime(2024, 9, 4, 15, 54, 41, 569, DateTimeKind.Local).AddTicks(2244),
+                            CREATEDTIME = new TimeSpan(569815692245),
                             HomeworkTitle = "Tükçe 105-110 sayfalaro yap"
                         });
                 });
@@ -135,9 +138,6 @@ namespace OneSignalWebApiv1.Migrations
                     b.Property<TimeSpan>("CREATEDTIME")
                         .HasColumnType("time");
 
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("OneSignalId")
                         .HasColumnType("nvarchar(max)");
 
@@ -160,21 +160,21 @@ namespace OneSignalWebApiv1.Migrations
                         {
                             GUID = new Guid("193c1ee9-f009-475b-8a5b-b83d4ee1ccec"),
                             CREATEDDATE = new DateTime(2024, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
-                            CREATEDTIME = new TimeSpan(594391049005),
+                            CREATEDTIME = new TimeSpan(566815692121),
                             StudentName = "Ali"
                         },
                         new
                         {
                             GUID = new Guid("b25858ec-f3e6-4951-ac73-cd3518e3d78b"),
                             CREATEDDATE = new DateTime(2024, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
-                            CREATEDTIME = new TimeSpan(594391049015),
+                            CREATEDTIME = new TimeSpan(566815692133),
                             StudentName = "Ayşe"
                         },
                         new
                         {
                             GUID = new Guid("954089bb-6666-44dc-928e-d4effc12169a"),
                             CREATEDDATE = new DateTime(2024, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
-                            CREATEDTIME = new TimeSpan(594391049020),
+                            CREATEDTIME = new TimeSpan(566815692136),
                             StudentName = "Ahmet"
                         });
                 });
