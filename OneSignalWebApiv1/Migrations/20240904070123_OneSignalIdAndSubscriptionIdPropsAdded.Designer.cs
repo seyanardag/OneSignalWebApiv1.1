@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OneSignalWebApiv1.Context;
 
@@ -11,9 +12,11 @@ using OneSignalWebApiv1.Context;
 namespace OneSignalWebApiv1.Migrations
 {
     [DbContext(typeof(OneSignalDbContext))]
-    partial class OneSignalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240904070123_OneSignalIdAndSubscriptionIdPropsAdded")]
+    partial class OneSignalIdAndSubscriptionIdPropsAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,15 +73,15 @@ namespace OneSignalWebApiv1.Migrations
                         new
                         {
                             GUID = new Guid("e0f4c6a5-5a6b-4d6e-8c5d-ef33b40f6d4b"),
-                            CREATEDDATE = new DateTime(2024, 9, 4, 10, 11, 31, 925, DateTimeKind.Local).AddTicks(3566),
-                            CREATEDTIME = new TimeSpan(366919253569),
+                            CREATEDDATE = new DateTime(2024, 9, 4, 10, 6, 22, 273, DateTimeKind.Local).AddTicks(5987),
+                            CREATEDTIME = new TimeSpan(363822735991),
                             HomeworkTitle = "Matematik 5 soru çöz"
                         },
                         new
                         {
                             GUID = new Guid("d8a89b58-0db8-4f62-a6b5-dc5a2e3de0a3"),
-                            CREATEDDATE = new DateTime(2024, 9, 4, 10, 16, 31, 925, DateTimeKind.Local).AddTicks(3573),
-                            CREATEDTIME = new TimeSpan(366919253573),
+                            CREATEDDATE = new DateTime(2024, 9, 4, 10, 11, 22, 273, DateTimeKind.Local).AddTicks(5994),
+                            CREATEDTIME = new TimeSpan(363822735995),
                             HomeworkTitle = "Tükçe 105-110 sayfalaro yap"
                         });
                 });
@@ -130,9 +133,6 @@ namespace OneSignalWebApiv1.Migrations
                     b.Property<string>("OneSignalId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PushToken")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("StudentName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -149,21 +149,21 @@ namespace OneSignalWebApiv1.Migrations
                         {
                             GUID = new Guid("193c1ee9-f009-475b-8a5b-b83d4ee1ccec"),
                             CREATEDDATE = new DateTime(2024, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
-                            CREATEDTIME = new TimeSpan(363919253480),
+                            CREATEDTIME = new TimeSpan(360822735836),
                             StudentName = "Ali"
                         },
                         new
                         {
                             GUID = new Guid("b25858ec-f3e6-4951-ac73-cd3518e3d78b"),
                             CREATEDDATE = new DateTime(2024, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
-                            CREATEDTIME = new TimeSpan(363919253491),
+                            CREATEDTIME = new TimeSpan(360822735850),
                             StudentName = "Ayşe"
                         },
                         new
                         {
                             GUID = new Guid("954089bb-6666-44dc-928e-d4effc12169a"),
                             CREATEDDATE = new DateTime(2024, 9, 4, 0, 0, 0, 0, DateTimeKind.Local),
-                            CREATEDTIME = new TimeSpan(363919253494),
+                            CREATEDTIME = new TimeSpan(360822735854),
                             StudentName = "Ahmet"
                         });
                 });

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OneSignalWebApiv1.Context;
 
@@ -11,9 +12,11 @@ using OneSignalWebApiv1.Context;
 namespace OneSignalWebApiv1.Migrations
 {
     [DbContext(typeof(OneSignalDbContext))]
-    partial class OneSignalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240904070632_StudentPushTokenAdded")]
+    partial class StudentPushTokenAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

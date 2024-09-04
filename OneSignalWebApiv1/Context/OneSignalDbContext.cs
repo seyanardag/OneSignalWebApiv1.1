@@ -42,7 +42,7 @@ namespace OneSignalWebApiv1.Context
 
             //DbSeed İşlemleri;
             modelBuilder.Entity<Student>().HasData(
-                new Student { GUID = Guid.Parse("193c1ee9-f009-475b-8a5b-b83d4ee1ccec"), StudentName = "Ali"},
+                new Student { GUID = Guid.Parse("193c1ee9-f009-475b-8a5b-b83d4ee1ccec"), StudentName = "Ali" },
                 new Student { GUID = Guid.Parse("b25858ec-f3e6-4951-ac73-cd3518e3d78b"), StudentName = "Ayşe"},
                 new Student { GUID = Guid.Parse("954089bb-6666-44dc-928e-d4effc12169a"), StudentName = "Ahmet"}
             );
