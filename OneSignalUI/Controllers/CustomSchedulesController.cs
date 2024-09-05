@@ -45,7 +45,8 @@ namespace OneSignalUI.Controllers
 
         // GET: CustomSchedules/Create
         public IActionResult Create()
-        {
+        {           
+            ViewData["StudentId"] = new SelectList(_context.Students, "GUID", "StudentName");
             return View();
         }
 
@@ -54,8 +55,9 @@ namespace OneSignalUI.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("LessonName,ScheduleDate,GUID,CREATEDDATE,CREATEDTIME")] CustomSchedule customSchedule)
+        public async Task<IActionResult> Create([Bind("LessonName,ScheduleDate,GUID,CREATEDDATE,CREATEDTIME,StudentId")] CustomSchedule customSchedule)
         {
+
             if (ModelState.IsValid)
             {
                 customSchedule.GUID = Guid.NewGuid();

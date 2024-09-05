@@ -3,6 +3,8 @@ using OneSignalApi.Api;
 using OneSignalApi.Client;
 using OneSignalApi.Model;
 using OneSignalWebApiv1.Context;
+using Polly;
+using System.Diagnostics;
 
 namespace OneSignalWebApiv1.Services
 {
@@ -43,7 +45,7 @@ namespace OneSignalWebApiv1.Services
             }
             catch (Exception ex)
             {
-                throw;
+                Debug.WriteLine(ex);
             }
         }
 
@@ -83,12 +85,16 @@ namespace OneSignalWebApiv1.Services
 
             try
             {
-                CreateNotificationSuccessResponse result = await _client.CreateNotificationAsync(notification);
+                if (playerIds != null && playerIds.Any())
+                {
+                    CreateNotificationSuccessResponse result = await _client.CreateNotificationAsync(notification);
+                }
             }
             catch (Exception ex)
             {
-                throw;
+                Debug.WriteLine(ex);
             }
+
 
         }
 
@@ -100,7 +106,7 @@ namespace OneSignalWebApiv1.Services
             //heading = "DERS YAKLAŞTI";
             var message = "Planlı dersiniz için son 15 dakika. Lütfen hazırlık yapınız";
 
-            //Test amaçlı 20 saniye seçildi, normalde alt satırdaki 15 dakika aktif olacak            
+            //Test amaçlı 10 saniye seçildi, normalde alt satırdaki 15 dakika aktif olacak            
             var periodTimeSpan = TimeSpan.FromSeconds(10);
             //var periodTimeSpan = TimeSpan.FromMinutes(15);
 
@@ -108,21 +114,28 @@ namespace OneSignalWebApiv1.Services
             {
                 //TODO DbContext in daha verimli şekilde kullanılması düşünülebilir
                 var _context = new OneSignalDbContext();
-                //Öğrencinin kendi hazırladığı dersin başlamasına son 10 dk dan az kaldığının hesaplanması ve bu öğrencilerin listesinin oluştyurulması
-                //TODO isNotifSent bilgisinin doldurulması?
-                var ScheduleTimeComingPlayerIds = _context.CustomSchedules.Include(x=>x.Student).Where(x => x.ScheduleDate > DateTime.UtcNow.AddHours(3) && x.ScheduleDate < DateTime.UtcNow.AddHours(3).AddMinutes(15)).Select(x=>x.Student.SubscriptionId).ToList();
-                var notNullPlayerIds = ScheduleTimeComingPlayerIds.Where(x=> x != null).Distinct().ToList();
+               
+                var now = DateTime.UtcNow.AddHours(3);
+                var end = now.AddMinutes(15);
 
+                var studentIds = _context.CustomSchedules.Where(x => x.ScheduleDate > now && x.ScheduleDate < end && x.isNotificationSent == false).Select(x => x.StudentId).Distinct().ToList();
+                var playerIds = _context.Students.Where(s => studentIds.Contains(s.GUID)).Select(s => s.SubscriptionId).ToList();
+                var notNullPlayerIds = playerIds.Where(x => x != null).Distinct().ToList();
 
-
+                var schedulesToUpdate = _context.CustomSchedules.Where(x => x.ScheduleDate > now && x.ScheduleDate < end && x.isNotificationSent == false).ToList();
+                foreach (var schedule in schedulesToUpdate)
+                {
+                    schedule.isNotificationSent = true;
+                }
+                await _context.SaveChangesAsync();
                 //Timer ın çalıştığını kontrol etmek için;
                 System.Diagnostics.Debug.WriteLine("calisti");
                 System.Diagnostics.Debug.WriteLine(DateTime.Now.ToString());
 
 
-                if (ScheduleTimeComingPlayerIds.Any())
+                if (notNullPlayerIds.Any())
                 {
-                    await ToPlayersByPlayerIds("PLANLI DERS YAKLAŞTI", "HAZIRLIK YAPINIZ", ScheduleTimeComingPlayerIds);                   
+                    await ToPlayersByPlayerIds("PLANLI DERS YAKLAŞTI", "HAZIRLIK YAPINIZ", notNullPlayerIds);
                 }
 
             }, null, startTimeSpan, periodTimeSpan);

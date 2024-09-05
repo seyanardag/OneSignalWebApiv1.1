@@ -3,6 +3,7 @@ using OneSignalApi.Api;
 using OneSignalApi.Client;
 using OneSignalApi.Model;
 using OneSignalWebApiv1.Context;
+using System.Diagnostics;
 
 namespace OneSignalWebApiv1.Services
 {
@@ -46,7 +47,7 @@ namespace OneSignalWebApiv1.Services
             }
             catch (Exception ex)
             {
-                throw;
+                Debug.WriteLine(ex.Message);
             }
 
         }

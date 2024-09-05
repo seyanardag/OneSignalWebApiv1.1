@@ -73,11 +73,19 @@ namespace OneSignalUI.Controllers
                 await _context.SaveChangesAsync();
 
                 // TODO: newitem.StudentId nolu öğrenciye "Yeni ödeviniz var" bildiriminin gönderilmesi YAPILDI
-                Student? studentToSendNotif = _context.Students.FirstOrDefault(s => s.GUID == studentHomeworkMV.StudentId);
+                Student? studentToSendNotif =await _context.Students.FirstOrDefaultAsync(s => s.GUID == studentHomeworkMV.StudentId);
                 if(studentToSendNotif.SubscriptionId != null)
                 {
+                    string lesssonName =  _context.Homeworks.FirstOrDefault(x => x.GUID == studentHomeworkMV.HomeworkId).HomeworkTitle;
+
                     var notifList = new List<string>() { studentToSendNotif.SubscriptionId };
-                    await _oneSignalServiceSpecificUsers.CreateAndSendNotificationAsync("Yeni Ödev", "Size yeni bir ödev ataması yapıldı, lütfen en yakın zamanda ödevinizi kontrol ediniz.", notifList);
+                    if(lesssonName != null)
+                    {
+                        await _oneSignalServiceSpecificUsers.CreateAndSendNotificationAsync("Yeni Ödev", $"Size {lesssonName} olarak yeni bir ödev ataması yapıldı, lütfen en yakın zamanda ödevinizi kontrol ediniz.", notifList);
+                    } else
+                    {
+                        await _oneSignalServiceSpecificUsers.CreateAndSendNotificationAsync("Yeni Ödev", "Size yeni bir ödev ataması yapıldı, lütfen en yakın zamanda ödevinizi kontrol ediniz.", notifList);
+                    }
                 }
 
 

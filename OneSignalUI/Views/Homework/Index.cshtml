@@ -2,13 +2,19 @@
 
 @{
     ViewData["Title"] = "Index";
+    var studentDatas = (SelectList)ViewData["StudentDatas"];
 }
 
 <h1>Index</h1>
 
 <div class="col-md-4">
-    <input type="text" id=StudentGUID class="form-control" placeholder="student GUID" />
+    <div>
+        @* <label> GUID giriniz veya seçiniz </label> *@
+        <select id=StudentGUID asp-items="studentDatas" class="form-control" ></select>
+        @* <input type="text" id=StudentGUID class="form-control" placeholder="student GUID" /> *@
+    </div>
     <input type="text" id=OneSignalAddEmailInputVal class="form-control" placeholder="email" />
+    <input type="text" id=OneSignalAddPhoneInputVal class="form-control" placeholder="phone" />
     <button id=OneSginalAddEmailBtn class="btn btn-success"> email ekle </button>
 </div>
 

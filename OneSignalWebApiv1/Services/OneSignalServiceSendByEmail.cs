@@ -4,6 +4,7 @@ using OneSignalWebApiv1.Context;
 using System.Configuration;
 using OneSignalApi.Client;
 using Microsoft.AspNetCore.Mvc;
+using System.Diagnostics;
 
 
 namespace OneSignalWebApiv1.Services
@@ -59,7 +60,8 @@ namespace OneSignalWebApiv1.Services
             }
             catch (Exception ex)
             {
-                throw;
+                Debug.WriteLine(ex);
+                return ex.Message;
             }
 
         }

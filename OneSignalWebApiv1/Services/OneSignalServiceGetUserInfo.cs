@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using OneSignalWebApiv1.Entities.OneSignalEntities;
+using System.Diagnostics;
 using System.Text.Json.Nodes;
 
 namespace OneSignalWebApiv1.Services
@@ -56,7 +57,7 @@ namespace OneSignalWebApiv1.Services
             catch (Exception ex)
             {
 
-                throw;
+                Debug.WriteLine(ex);
             }
             return null;
         }
@@ -99,9 +100,10 @@ namespace OneSignalWebApiv1.Services
             }
             catch (Exception ex)
             {
-                return ex.Message;
+                Debug.WriteLine(ex);
+                return null;
             }
-           
+
         }
 
 

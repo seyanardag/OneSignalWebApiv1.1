@@ -21,89 +21,67 @@
 
 
 
-                     console.log( "OneSignal.User.onesignalId=", OneSignal.User.onesignalId);  //BU GELEN ONESIGNAL_ID DEĞİL!!!
-                     console.log("OneSignal.User.externalId=", OneSignal.User.externalId); //BU GELMİYOR!!!
-                     //OneSignal.User.addEmail("customer@company.com");
-                     
-                    //OneSignal.User.addTag('email', 'tag_value2');
-                    console.log("email tag eklendi");
-                    const tags = OneSignal.User.getTags();
-                    var email = tags["email"];
-                    console.log(tags["email"]);
+            console.log("OneSignal.User.onesignalId=", OneSignal.User.onesignalId);  //BU GELEN ONESIGNAL_ID DEĞİL!!!
 
-          
-                                 $(document).ready(function() {
-
-                                     //homework index teki buton ile veri alma
-                                     $("#OneSginalAddEmailBtn").click(function() {
+            const tags = OneSignal.User.getTags();
+            var email = tags["email"];
+            console.log(tags["email"]);
 
 
-                                        var PlayerId = OneSignal.User.PushSubscription.id;
-                                        console.log("PushSubscription.id=", PlayerId);
-                                        var PushToken = OneSignal.User.PushSubscription.token;
-                                        console.log("pushToken", PushToken);
+            $(document).ready(function () {
 
-                                     
-                                         var OneSignalAddEmailInputVal = $("#OneSignalAddEmailInputVal").val();
-                                         var StudentGUID = $("#StudentGUID").val();
-                                         console.log(OneSignalAddEmailInputVal);
-                                         OneSignal.User.addTag('email', OneSignalAddEmailInputVal);
+                //homework index teki buton ile veri alma
+                $("#OneSginalAddEmailBtn").click(function () {
 
-                                         $.ajax({
-                                                url: 'https://localhost:44334/api/DatabaseSave/SaveSDKDatas', // API endpoint
-                                                type: 'POST',
-                                                contentType: 'application/json',
-                                                data: JSON.stringify(
-                                                    {
-                                                        StudentGUID:StudentGUID,
-                                                        PlayerId:PlayerId,
-                                                        PushToken:PushToken,
-                                                        OneSignalAddEmailInputVal:OneSignalAddEmailInputVal
-                                                    }
-                                                ), // JSON verisi
-                                                success: function(response) {
-                                                    console.log('Success:', response);
-                                                },
-                                                error: function(xhr, status, error) {
-                                                    console.error('Error:', error);
-                                                }
-                                            });
+                    var StudentGUID = $("#StudentGUID").val();
+                    var PlayerId = OneSignal.User.PushSubscription.id;
+                    var PushToken = OneSignal.User.PushSubscription.token;
+                    var OneSignalAddEmailInputVal = $("#OneSignalAddEmailInputVal").val();
+                    var OneSignalAddPhoneInputVal = $("#OneSignalAddPhoneInputVal").val();
 
-
-                                     }); //OneSginalAddEmailTagBtn end
+                    //OneSignal.User.addTag('email', OneSignalAddEmailInputVal);
+                    //OneSignal.User.addTag('phone', OneSignalAddPhoneInputVal);
+                    OneSignal.User.addEmail(OneSignalAddEmailInputVal);
+                    OneSignal.User.addSms(OneSignalAddPhoneInputVal);
+                    
+                    console.log("StudentGUID=", StudentGUID);                    
+                    console.log("PushSubscription.id=", PlayerId);
+                    console.log("pushToken=", PushToken);
+                    console.log("OneSignalAddEmailInputVal=", OneSignalAddEmailInputVal);
+                    console.log("OneSignalAddPhoneInputVal=", OneSignalAddPhoneInputVal);
 
 
 
+                    $.ajax({
+                        url: 'https://localhost:44334/api/DatabaseSave/SaveSDKDatas', // API endpoint
+                        type: 'POST',
+                        contentType: 'application/json',
+                        data: JSON.stringify(
+                            {
+                                StudentGUID: StudentGUID,
+                                PlayerId: PlayerId,
+                                PushToken: PushToken,
+                                OneSignalAddEmailInputVal: OneSignalAddEmailInputVal
+                            }
+                        ), // JSON verisi
+                        success: function (response) {
+                            console.log('Success:', response);
+                        },
+                        error: function (xhr, status, error) {
+                            console.error('Error:', error);
+                        }
+                    });
+
+
+                }); //OneSginalAddEmailTagBtn end
 
 
 
-
-                                     //api ye post isteği;
-                                    // $.ajax({
-                                    //     url: '/api/DatabaseSave/SaveOneSignalId', // API endpoint
-                                    //     type: 'POST',
-                                    //     contentType: 'application/json',
-                                    //     data: JSON.stringify({
-                                    //         playerId: playerId,
-                                    //         pushToken: pushToken
-                                    //     }
-                                    //     ), // JSON verisi
-                                    //     success: function(response) {
-                                    //         console.log('Success:', response);
-                                    //     },
-                                    //     error: function(xhr, status, error) {
-                                    //         console.error('Error:', error);
-                                    //     }
-                                    // });
+            });//document-ready end
 
 
 
-                                  });//document-ready end
-
-
-
-
-                        });
+        });
     </script>
 
 

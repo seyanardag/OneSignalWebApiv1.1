@@ -22,6 +22,7 @@ namespace OneSignalUI.Controllers
         // GET: Homework
         public async Task<IActionResult> Index()
         {
+            ViewData["studentDatas"] = new SelectList(_context.Students, "GUID", "StudentName");
             return View(await _context.Homeworks.ToListAsync());
         }
 
@@ -46,6 +47,7 @@ namespace OneSignalUI.Controllers
         // GET: Homework/Create
         public IActionResult Create()
         {
+            
             return View();
         }
 

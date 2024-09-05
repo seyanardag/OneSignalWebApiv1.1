@@ -59,13 +59,22 @@ namespace OneSignalWebApiv1.Services
                             }
                 }
             };
-
-            using (var response = await client.SendAsync(request))
+            try
             {
-                var body = await response.Content.ReadAsStringAsync();
-                Debug.WriteLine(body);
-                return body;
+                using (var response = await client.SendAsync(request))
+                {
+                    var body = await response.Content.ReadAsStringAsync();
+                    Debug.WriteLine(body);
+                    return body;
+                }
             }
+            catch (Exception ex)
+            {
+
+                Debug.WriteLine(ex);
+                return ex.Message;
+            }
+            
 
         }
     }
