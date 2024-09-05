@@ -39,10 +39,10 @@
                     var OneSignalAddEmailInputVal = $("#OneSignalAddEmailInputVal").val();
                     var OneSignalAddPhoneInputVal = $("#OneSignalAddPhoneInputVal").val();
 
-                    //OneSignal.User.addTag('email', OneSignalAddEmailInputVal);
-                    //OneSignal.User.addTag('phone', OneSignalAddPhoneInputVal);
-                    OneSignal.User.addEmail(OneSignalAddEmailInputVal);
-                    OneSignal.User.addSms(OneSignalAddPhoneInputVal);
+                    OneSignal.User.addTag('email', OneSignalAddEmailInputVal);
+                    OneSignal.User.addTag('phone', OneSignalAddPhoneInputVal);
+                    //OneSignal.User.addEmail(OneSignalAddEmailInputVal);
+                    //OneSignal.User.addSms(OneSignalAddPhoneInputVal);
                     
                     console.log("StudentGUID=", StudentGUID);                    
                     console.log("PushSubscription.id=", PlayerId);

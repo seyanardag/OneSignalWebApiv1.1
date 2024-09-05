@@ -41,6 +41,7 @@ builder.Services.AddSingleton(new OneSignalServiceCreateOrUpdatePlayer(oneSignal
 
 builder.Services.AddSingleton(new OneSignalServiceOK(oneSignalAppId!, oneSignalApiKey!));
 
+builder.Services.AddScoped<FlutterIntegrationService>();
 
 var app = builder.Build();
 

@@ -70,6 +70,15 @@ namespace OneSignalWebApiv1.Services
             heading = heading.Trim();
             message = message.Trim();
 
+
+            var extraData = new
+            {
+                studentGUID = "STUDENT_GUID_VALUE",  
+                homework = "homeworkValue",          
+                HomeworkID = "HOMEWORK_ID_VALUE"     
+            };
+
+
             // Bildirim oluşturma
             var notification = new Notification(appId: _appId)
             {
@@ -79,8 +88,45 @@ namespace OneSignalWebApiv1.Services
                 Contents = new StringMap { En = message },
                 // Hedef kitle
                 // bu özellik depreceted olmuş ama hala kullanılabilior, doğrudan bunu karşılayan başka bir metod şu anda yok.
-                IncludePlayerIds = playerIds
+                IncludePlayerIds = playerIds,
+                Data = extraData
+               
 
+
+            };
+
+            try
+            {
+                if (playerIds != null && playerIds.Any())
+                {
+                    CreateNotificationSuccessResponse result = await _client.CreateNotificationAsync(notification);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+
+        }
+
+        public async Task ToPlayersByPlayerIds(string heading, string message, List<string> playerIds, string? studentGUID, string? tableName, string? tableGUID)
+        {
+            heading = heading.Trim();
+            message = message.Trim();
+
+            // Bildirim oluşturma
+            var notification = new Notification(appId: _appId)
+            {
+                // Bildirim başlığı                
+                Headings = new StringMap { En = heading },
+                // Bildirim içeriği
+                Contents = new StringMap { En = message },
+                // Hedef kitle
+                // bu özellik depreceted olmuş ama hala kullanılabilior, doğrudan bunu karşılayan başka bir metod şu anda yok.
+                IncludePlayerIds = playerIds,
+
+                //Url = $"https://localhost:44334/MakeNotifRead/Index=?{studentGUID}/{tableName}/{tableGUID}" 
+                Url = $"https://localhost:44334/api/MakeNotifRead/Index?studentGUID={studentGUID}&tableName={tableName}&tableGUID={tableGUID}"
             };
 
             try
@@ -97,6 +143,8 @@ namespace OneSignalWebApiv1.Services
 
 
         }
+
+
 
         //Dersi yaklaşan kullanıcıya bildirim gönderilmesi
         public Task SendNotificationToCustomScheduled()
